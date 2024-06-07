@@ -21,9 +21,11 @@ def custom_standardization(input_text):
 # Adding the processing function as a custom object to keras utils since my imported vectorizer uses it.
 tf.keras.utils.get_custom_objects()['custom_standardization'] = custom_standardization
 
+
 # Specifying model path so I can switch it with ease
 base_dir = os.path.abspath(os.path.dirname(__file__))
 
+print(os.listdir())
 print(f"Base directory: {base_dir}")
 print(f"Current working directory: {os.getcwd()}")
 
