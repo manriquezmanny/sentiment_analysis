@@ -25,6 +25,18 @@ base_dir = os.path.abspath(os.path.dirname(__file__))
 model_path = os.path.join(base_dir, "models", "model1.2.keras")
 
 print(model_path)
+
+# Check if the model path exists
+model_exists = os.path.exists(model_path)
+print(f"Model exists: {model_exists}")
+
+# List the contents of the models directory
+print("Contents of /app/models:")
+for root, dirs, files in os.walk('/app/models'):
+    for name in files:
+        print(os.path.join(root, name))
+
+
 # Loading the model using keras function
 model = load_model(model_path)
 
