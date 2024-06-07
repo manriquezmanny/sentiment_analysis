@@ -1,14 +1,15 @@
-# Stage 1: Build stage
 FROM python:3.10.14
+
+RUN pip install gunicorn
 
 WORKDIR /app
 
-COPY . /app
+COPY requirements.txt ./
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose port 5000
-EXPOSE 5000
+COPY . .
 
-# Command to run the Flask application
-CMD ["python", "main.py"]
+EXPOSE 8000
+
+CMD [ "gunicorn", "--chdir", "src", "api:app" ]
