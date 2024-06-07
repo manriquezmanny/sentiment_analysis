@@ -1,0 +1,7 @@
+server/data_set.csv
+server/vectorized_data/
+server/models/model.keras
+server/models/model1.1.keras
+server/vectorizer_models/vectorizer_model
+server/vectorizer_models/vectorizer_model1.1
+server/__pycache__/

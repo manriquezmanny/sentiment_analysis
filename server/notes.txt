@@ -1,0 +1,33 @@
+At first I was trying just LSTM layers between my Embeding layer, and my softmax dense layer but I couldn't get past 50% accuracy
+Then I tried adding a CNN Layer before my LSTM layer and I got 82% accuracy and trained MUCH faster!
+Humans agree at around 80-85% of the time for sentiment classification so 82% is solid!
+
+
+
+I'm going to try and push for a bit more accuracy though.
+I added a second LSTM layer and didn't get significant changes, so I might try changing the batching next.
+I tried a bunch of other different things, but could not get over that 82% accuracy for now.
+
+
+
+Looks like my previous models were all overfitting and not producing good enough results on new data.
+
+
+
+I spent a lot of time installing CUDA so that I can use my Nvidia RTX 4090 to significantly speed up training times. It works great now that
+I have a CONDA virtual enviornment set up with all the right library versions that work with eachother.
+
+
+
+A big mistake I was making is that I was re adapting the vectorizer layer when using my model. This changes the mappings of words.
+I should instead export the vectorizer and import it when using the model.
+Fixing this mistake was a HUGE success! My model accurately classifies positive and negative sentiment!
+
+
+Having only one output neuron with a sigmoid activation function is good for binary classification!
+
+
+
+Note: My model definitely has some biases reflected by the overall sentiment of the 1.6 million tweets used to train it!
+For example, it classifies "Trump" as positive and "Biden" as negative. This does not mean that my ai model has an opinion,
+it just has biases formed by the collective sentiment of the 1.6 million tweets it was trained on.
