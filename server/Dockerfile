@@ -6,7 +6,7 @@ COPY ./requirements.txt /app/requirements.txt
 
 RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 
-COPY ./app /app/app
+COPY ./app /app/
 
 # Expose port 5000
 EXPOSE 5000
