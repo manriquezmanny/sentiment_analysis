@@ -1,28 +1,26 @@
-# Defining my runtime and version
+# Stage 1: Build stage
 FROM python:3.10.14 AS builder
 
-#Copying the current directory contents into container at /app
+# Copy the entire project directory to the container
 COPY . /app
 
-# Defining my runtime and version
+# Stage 2: Final stage
 FROM python:3.10.14
 
-# Setting the working directory
+# Set the working directory
 WORKDIR /app
 
-# Adding a step to copy the model file to the correct directory
+# Copy only the necessary files from the builder stage
 COPY --from=builder /app/models/model1.2.keras /app/models/
-COPY --from=builder /app/vectorizer_models/vectorizer_model1.2 /app/vectorizer_models/vectorizer_model1.2
+COPY --from=builder /app/vectorizer_models/vectorizer_model1.2 /app/vectorizer_models/
+COPY --from=builder /app/main.py /app/
+# Copy the requirements file and install dependencies
+COPY requirements.txt /app/
 
-# Copying the requirements filea nd installing dependencies
-COPY requirements.txt /app
-
-
-# Installing dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Exposing port
+# Expose port 5000
 EXPOSE 5000
 
-# Command to run the flask application
+# Command to run the Flask application
 CMD ["python", "main.py"]
