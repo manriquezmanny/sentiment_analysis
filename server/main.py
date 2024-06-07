@@ -8,6 +8,7 @@ import os
 # Creating flask app for API
 app = Flask(__name__)
 
+
 # Replicating my processing function so that I can process the new text the same way I processed the training data.
 def custom_standardization(input_text):
     lowercase = tf.strings.lower(input_text)
@@ -37,17 +38,24 @@ for root, dirs, files in os.walk('/app/models'):
         print(os.path.join(root, name))
 
 
+print(f"TensorFlow version: {tf.__version__}")
+print(f"Keras version: {tf.keras.__version__}")
+
+
 # Loading the model using keras function
 model = load_model(model_path)
+print("loaded model")
 
 # Importing the vectorizer
 vectorizer_path = os.path.join(base_dir, "vectorizer_models", "vectorizer_model1.2")
 print(vectorizer_path)
 vectorizer = load_model(vectorizer_path)
+print("loaded vectorizer")
 
 # Simple flask api for if I want to run backend.
 @app.route("/predict", methods=["POST"])
 def predict():
+    print("\n\nInside predict endpoint\n\n")
     data = request.get_json(force=True)
     text = data["text"]
     vectorized_text = vectorizer.predict([text])
@@ -91,4 +99,4 @@ print(f'\nThe text "{text[0]}" is: {classes[predicted_class_index]} \nThe text "
 """
 
 if __name__ =="__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True, port="5000")
