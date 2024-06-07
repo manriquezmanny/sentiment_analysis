@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify
 from keras.models import load_model
 import numpy as np
 import tensorflow as tf
+import os
 
 # Creating flask app for API
 app = Flask(__name__)
@@ -20,12 +21,15 @@ def custom_standardization(input_text):
 tf.keras.utils.get_custom_objects()['custom_standardization'] = custom_standardization
 
 # Specifying model path so I can switch it with ease
-model_path = "./models/model1.2.keras"
+base_dir = os.path.abspath(os.path.dirname(__file__))
+model_path = os.path.join(base_dir, "models", "model1.2.keras")
+
 # Loading the model using keras function
 model = load_model(model_path)
 
 # Importing the vectorizer
-vectorizer = load_model("./vectorizer_models/vectorizer_model1.2")
+vectorizer_path = os.path.join(base_dir, "vectorizer_models", "vectorizer_model1.2")
+vectorizer = load_model(vectorizer_path)
 
 # Simple flask api for if I want to run backend.
 @app.route("/predict", methods=["POST"])
