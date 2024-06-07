@@ -30,6 +30,7 @@ model = load_model(model_path)
 
 # Importing the vectorizer
 vectorizer_path = os.path.join(base_dir, "vectorizer_models", "vectorizer_model1.2")
+print(vectorizer_path)
 vectorizer = load_model(vectorizer_path)
 
 # Simple flask api for if I want to run backend.
