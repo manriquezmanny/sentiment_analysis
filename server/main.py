@@ -23,9 +23,13 @@ tf.keras.utils.get_custom_objects()['custom_standardization'] = custom_standardi
 
 # Specifying model path so I can switch it with ease
 base_dir = os.path.abspath(os.path.dirname(__file__))
+
+print(f"Base directory: {base_dir}")
+print(f"Current working directory: {os.getcwd()}")
+
 model_path = os.path.join(base_dir, "models", "model1.2.keras")
 
-print(model_path)
+print(f"Model path: {model_path}")
 
 # Check if the model path exists
 model_exists = os.path.exists(model_path)
