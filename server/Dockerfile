@@ -16,4 +16,4 @@ EXPOSE 8000
 ENV MODELS_DIR=/app/models
 ENV VECTORIZER_MODELS_DIR=/app/vectorizer_models
 
-CMD [ "gunicorn", "main:app", "-b", "0.0.0.0:8000"]
+CMD [ "gunicorn", "-b", "0.0.0.0:8000", "main:app"]
