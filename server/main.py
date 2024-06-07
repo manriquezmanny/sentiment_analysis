@@ -24,6 +24,7 @@ tf.keras.utils.get_custom_objects()['custom_standardization'] = custom_standardi
 base_dir = os.path.abspath(os.path.dirname(__file__))
 model_path = os.path.join(base_dir, "models", "model1.2.keras")
 
+print(model_path)
 # Loading the model using keras function
 model = load_model(model_path)
 
