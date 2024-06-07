@@ -12,4 +12,4 @@ COPY . .
 
 EXPOSE 8000
 
-CMD [ "gunicorn", "--chdir", "src", "api:app" ]
+CMD [ "gunicorn", "api:app" ]
