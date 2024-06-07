@@ -11,7 +11,7 @@ COPY requirements.txt /app
 RUN pip install --no-cache-dir -r requirements.txt
 
 #Copying the current directory contents into container at /app
-COPY ./app
+COPY . /app
 
 # Setting up env variables for paths to model and vectorizer_models
 ENV MODELS_DIR=/app/models
