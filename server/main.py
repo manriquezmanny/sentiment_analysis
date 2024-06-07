@@ -49,7 +49,7 @@ print(f"Keras version: {tf.keras.__version__}")
 
 
 # Loading the model using keras function
-model = load_model(model_path)
+model = load_model("./models/model1.2.keras")
 print("loaded model")
 
 # Importing the vectorizer
