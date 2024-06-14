@@ -1,5 +1,6 @@
 # Imports
 from flask import Flask, request, jsonify
+from flask_cors import CORS, cross_origin
 from keras.models import load_model
 import numpy as np
 import tensorflow as tf
@@ -8,6 +9,7 @@ import sys
 
 # Creating flask app for API
 app = Flask(__name__)
+cors = CORS(app)
 
 
 # Replicating my processing function so that I can process the new text the same way I processed the training data.
@@ -45,10 +47,12 @@ vectorizer = load_model(vectorizer_path)
 
 # Simple flask api for if I want to run backend.
 @app.route("/classify", methods=["POST"])
-def predict():
+@cross_origin()
+def classify():
     print("\n\nInside predict endpoint\n\n")
     data = request.get_json(force=True)
     text = data["text"]
+    print(text)
     vectorized_text = vectorizer.predict([text])
     prediction = model.predict(vectorized_text)
     threshold = 0.5
@@ -56,7 +60,7 @@ def predict():
     classes = ["Negative", "Positive"]
     result = classes[predicted_class_index]
     print(f'\nThe text "{text}" is: {classes[predicted_class_index]}')
-    return jsonify({"prediction": result})
+    return jsonify({"classification": result})
 
 
 
