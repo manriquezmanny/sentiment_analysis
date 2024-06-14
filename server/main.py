@@ -4,6 +4,7 @@ from keras.models import load_model
 import numpy as np
 import tensorflow as tf
 import os
+import sys
 
 # Creating flask app for API
 app = Flask(__name__)
@@ -24,42 +25,26 @@ tf.keras.utils.get_custom_objects()['custom_standardization'] = custom_standardi
 
 # Specifying model path so I can switch it with ease
 base_dir = os.path.abspath(os.path.dirname(__file__))
-
-print(os.listdir())
-print(f"Base directory: {base_dir}")
-print(f"Current working directory: {os.getcwd()}")
-
 model_path = os.path.join(base_dir, "models", "model1.2.keras")
-
-print(f"Model path: {model_path}")
 
 # Check if the model path exists
 model_exists = os.path.exists(model_path)
-print(f"Model exists: {model_exists}")
-
-# List the contents of the models directory
-print("Contents of /app/models:")
-for root, dirs, files in os.walk('/app/models'):
-    for name in files:
-        print(os.path.join(root, name))
-
-
-print(f"TensorFlow version: {tf.__version__}")
-print(f"Keras version: {tf.keras.__version__}")
-
+if not model_exists:
+    print("No model imported")
+    sys.exit(1)
 
 # Loading the model using keras function
-model = load_model("./models/model1.2.keras")
-print("loaded model")
+model = load_model(model_path)
+
 
 # Importing the vectorizer
 vectorizer_path = os.path.join(base_dir, "vectorizer_models", "vectorizer_model1.2")
 print(vectorizer_path)
 vectorizer = load_model(vectorizer_path)
-print("loaded vectorizer")
+
 
 # Simple flask api for if I want to run backend.
-@app.route("/predict", methods=["POST"])
+@app.route("/classify", methods=["POST"])
 def predict():
     print("\n\nInside predict endpoint\n\n")
     data = request.get_json(force=True)
@@ -105,4 +90,4 @@ print(f'\nThe text "{text[0]}" is: {classes[predicted_class_index]} \nThe text "
 """
 
 if __name__ =="__main__":
-    app.run(host="0.0.0.0", debug=True, port="5000")
+    app.run(host="127.0.0.1", debug=True, port="5000")

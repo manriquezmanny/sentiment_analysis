@@ -13,7 +13,6 @@ from sklearn.model_selection import train_test_split
 # Checking for GPU
 tf.config.list_physical_devices('GPU')
 
-
 # Loading vectorized tweets and labels
 data = np.load("./vectorized_data/vectorized_tweets1.2.npz")
 vectorized_tweets = data["tweets"]
@@ -21,6 +20,7 @@ labels = data["labels"]
 
 # Splitting the data into a training set and a validation set. Note, the test_size of 0.2 means 20% will be used for testing and 80% for training. Also random_state acts as a seed of how the data is split.
 X_train, X_val, y_train, y_val = train_test_split(vectorized_tweets, labels, test_size=0.2, random_state=12)
+
 
 # Defining my sequential model.
 # Note, the embedding layer takes 50,000 as input representing 50,000 tokens/words most commonly used.
@@ -38,7 +38,6 @@ model = Sequential([
 
 # Defining Early Stopping conditions to avoid overfitting and stop training on convergence.
 early_stopping = EarlyStopping(monitor="val_accuracy", patience=2)
-
 
 # Compiling the model with a specified optimizer that abstracts logic that optimizes our model. Such optimizations include a loss_function that may use gradient_descent etc.
 model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])

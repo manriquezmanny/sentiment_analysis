@@ -9,7 +9,7 @@ data = pd.read_csv("./data_set.csv", encoding="latin-1", header=None)
 data.columns = ["target", "ids", "date", "flag", "user", "text"]
 tweets = data["text"].values
 
-# Cleaning data a bit so that the labels are 1 and 2 insteead of 2 and 4 purely for my preference.
+# Cleaning data a bit so that the labels are 1 and 2 instead of 2 and 4 purely for my preference.
 labels = data["target"].values
 labels = np.where(labels == 4, 2, labels)
 labels = np.where(labels == 2, 1, labels)
@@ -24,12 +24,12 @@ def custom_standardization(input_text):
     return cleaned_text
 
 
-# Max features set to 50,000 since we want 50,000 possible unique words for our model to work with. This is an adjustable hyperperameter.
+# Max features set to 50,000 since we want around 50,000 of the most frequently used unique words for our model to work with. This is an adjustable hyperperameter.
 max_features = 50000
 # Another adjustable hyperparameter representing the length of each tokenized representation of a word.
 sequence_length=100
 
-# Instantiating vectorizer with necessary parameters.
+# Instantiating vectorizer with necessary parameters. Padding adds Zeros where necessary so that all tokens are max sequence_length.
 vectorizer = TextVectorization(
     standardize=custom_standardization,
     max_tokens=max_features,
@@ -38,20 +38,15 @@ vectorizer = TextVectorization(
     pad_to_max_tokens=True
 )
 
-
-# Adapting the vectorizer to the tweets.
+# Adapting the vectorizer to the tweets. Maps words to tokens.
 vectorizer.adapt(tweets)
-
-# Vectorizing the tweets
+# Vectorizing the tweets (Tokenizing words)
 vectorized_tweets = vectorizer(tweets)
 
-print(vectorized_tweets)
 
 # Saving vectorized tweets and labels
 np.savez_compressed("./vectorized_data/vectorized_tweets1.2.npz", tweets=vectorized_tweets.numpy(), labels=labels)
-
 # Saving the Vectorizer
 vectorizer_model = tf.keras.models.Sequential([tf.keras.Input(shape=(1,), dtype=tf.string), vectorizer])
 vectorizer_model.save('vectorizer_models/vectorizer_model1.2')
-
 print("Vectorization completed and saved.")
