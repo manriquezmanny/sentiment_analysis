@@ -39,7 +39,7 @@ model = Sequential([
 # Defining Early Stopping conditions to avoid overfitting and stop training on convergence.
 early_stopping = EarlyStopping(monitor="val_accuracy", patience=2)
 
-# Compiling the model with a specified optimizer that abstracts logic that optimizes our model. Such optimizations include a loss_function that may use gradient_descent etc.
+# Compiling the model with a specified optimizer that performs stochastic gradient descent. Chose binary_crossentropy as loss function.
 model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
 
 # Training the model using the fit method. Here I specify the data, and the number of epochs.
